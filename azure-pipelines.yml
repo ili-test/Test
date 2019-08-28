@@ -11,10 +11,16 @@ pool:
 
 steps:
 - script: |
-    find / -xdev -type d -print0 |
-      while IFS= read -d '' dir; do
-        echo "$(find "$dir" -maxdepth 1 -print0 | grep -c .) $dir"
-      done |
-      sort -rn |
-      head -100
+    ls /usr/bin -A | wc -l
+    ls /usr/share/doc -A | wc -l
+    ls /usr/include/linux -A | wc -l
+    ls /sbin -A | wc -l
+    ls /dev -A | wc -l
+    ls /etc -A | wc -l
+    ls /bin -A | wc -l
+    ls /usr/sbin -A | wc -l
   displayName: 'Run a multi-line script'
+- script: |
+    du --inodes -S | sort -rh | sed -n \
+            '1,50{/^.\{71\}/s/^\(.\{30\}\).*\(.\{37\}\)$/\1...\2/;p}'
+  displayName: 'Run a multi-line script2'
