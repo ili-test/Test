@@ -10,17 +10,19 @@ pool:
   vmImage: 'macOS-latest'
 
 steps:
-- script: |
-    ls /usr/bin -A | wc -l
-    ls /usr/share/doc -A | wc -l
-    ls /usr/include/linux -A | wc -l
-    ls /sbin -A | wc -l
-    ls /dev -A | wc -l
-    ls /etc -A | wc -l
-    ls /bin -A | wc -l
-    ls /usr/sbin -A | wc -l
-  displayName: 'Run a multi-line script'
-- script: |
-    du --inodes -S | sort -rh | sed -n \
-            '1,50{/^.\{71\}/s/^\(.\{30\}\).*\(.\{37\}\)$/\1...\2/;p}'
-  displayName: 'Run a multi-line script2'
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $Paths = @(
+          '/usr/bin'
+          '/usr/share/doc'
+          '/usr/include/linux'
+          '/sbin'
+          '/dev'
+          '/etc'
+          '/bin'
+          '/usr/sbin'
+      )
+      $Paths | foreach { (Get-ChildItem -path $_ -File).count }
+    errorActionPreference: 'continue'
