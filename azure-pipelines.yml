@@ -1,0 +1,20 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'macOS-latest'
+
+steps:
+- script: |
+    find / -xdev -type d -print0 |
+      while IFS= read -d '' dir; do
+        echo "$(find "$dir" -maxdepth 1 -print0 | grep -zc .) $dir"
+      done |
+      sort -rn |
+      head -100
+  displayName: 'Run a multi-line script'
