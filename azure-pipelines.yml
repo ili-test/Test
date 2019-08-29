@@ -10,4 +10,4 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
-- powershell: "M"
+- powershell: "'Mfork'"
