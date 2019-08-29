@@ -7,22 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'macOS-latest'
+  vmImage: 'windows-latest'
 
 steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      $Paths = @(
-          '/usr/bin'
-          '/usr/share/doc'
-          '/usr/include/linux'
-          '/sbin'
-          '/dev'
-          '/etc'
-          '/bin'
-          '/usr/sbin'
-      )
-      $Paths | foreach {"$_" ; (Get-ChildItem -path $_ -File).extension | Group-Object | Sort-Object -Property count -Descending | Select-Object -First 12 Name, Count  }
-    errorActionPreference: 'continue'
+- powershell: "M"
